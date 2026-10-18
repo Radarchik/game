@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from '../model/question';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material/table';
 import {HttpClient} from '@angular/common/http';
 import {QuestionsService} from '../questions.service';
 
 @Component({
   selector: 'app-page1',
+  standalone: false,
   templateUrl: './page1.component.html',
   styleUrls: ['./page1.component.css']
 })

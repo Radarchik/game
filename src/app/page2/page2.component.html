@@ -31,9 +31,19 @@
               <mat-cell *matCellDef="let question;" >
                 <div class="mobile-label">Действие:</div>
                 <span class="question-text" *ngIf="!question.isOwn">{{question.text}}</span>
-                <mat-form-field appearance="outline" autocomplete="off" *ngIf="question.isOwn" class="no-padding">
+                <mat-form-field
+                  appearance="outline"
+                  *ngIf="question.isOwn"
+                  class="no-padding">
+
                   <mat-label>Заполни свой вариант:</mat-label>
-                  <input matInput  autocomplete="off" (change)="onInputChange($event.target.value, question)" value="{{question.text}}">
+
+                  <input
+                    #answerInput
+                    matInput
+                    autocomplete="off"
+                    (change)="onInputChange(answerInput.value, question)"
+                    [value]="question.text">
                 </mat-form-field>
 
               </mat-cell>
@@ -44,17 +54,34 @@
               <mat-header-cell *matHeaderCellDef> Ответ </mat-header-cell>
               <mat-cell *matCellDef="let question; ">
                 <span class="mobile-label">Балы:</span>
-                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="question.id > 7" value="{{question.estimate}}">
-                  <mat-button-toggle value=0 (change)="onValChange($event.value, question)">0</mat-button-toggle>
-                  <mat-button-toggle value=1 (change)="onValChange($event.value, question)">1</mat-button-toggle>
-                  <mat-button-toggle value=2 (change)="onValChange($event.value, question)">2</mat-button-toggle>
-                  <mat-button-toggle value=3 (change)="onValChange($event.value, question)">3</mat-button-toggle>
-                  <mat-button-toggle value=4 (change)="onValChange($event.value, question)">4</mat-button-toggle>
-                  <mat-button-toggle value=5 (change)="onValChange($event.value, question)">5</mat-button-toggle>
+                <mat-button-toggle-group
+                  name="fontStyle"
+                  aria-label="Font Style"
+                  *ngIf="question.id > 0"
+                  [value]="question.estimate"
+                  (change)="onValChange($event.value, question)">
+
+                  <mat-button-toggle [value]="0">0</mat-button-toggle>
+                  <mat-button-toggle [value]="1">1</mat-button-toggle>
+                  <mat-button-toggle [value]="2">2</mat-button-toggle>
+                  <mat-button-toggle [value]="3">3</mat-button-toggle>
+                  <mat-button-toggle [value]="4">4</mat-button-toggle>
+                  <mat-button-toggle [value]="5">5</mat-button-toggle>
+
                 </mat-button-toggle-group>
-                <mat-form-field appearance="outline" autocomplete="off" *ngIf="question.id <= 7" class="no-padding">
+                <mat-form-field
+                  appearance="outline"
+                  *ngIf="question.id < 0"
+                  class="no-padding">
+
                   <mat-label></mat-label>
-                  <input matInput  autocomplete="off" (change)="onInputNotToggleChange($event.target.value, question)" value="{{question.answer}}">
+
+                  <input
+                    #answerInput
+                    matInput
+                    autocomplete="off"
+                    (change)="onInputNotToggleChange(answerInput.value, question)"
+                    [value]="question.answer">
                 </mat-form-field>
 
               </mat-cell>

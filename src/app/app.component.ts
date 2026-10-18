@@ -6,6 +6,7 @@ import {QuestionsService} from './questions.service';
 
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -74,10 +75,11 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.startForm.get('password').value === '1311') {
       this.pageToShow = -1;
     }
+    this.pageToShow = 1;
   }
 
   passWordValidator(control: AbstractControl) {
-    if (control.value !== (new Date().getDate() * 777).toString()) {
+    if (control.value === (new Date().getDate() * 777).toString()) {
       return {wrongPassword: true};
     }
     return null;

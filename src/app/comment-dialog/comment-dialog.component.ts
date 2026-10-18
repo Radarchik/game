@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Question} from '../model/question';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comment-dialog',
+  standalone: false,
   templateUrl: './comment-dialog.component.html',
   styleUrls: ['./comment-dialog.component.css']
 })

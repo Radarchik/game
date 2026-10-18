@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-page-end',
+  standalone: false,
   templateUrl: './page-end.component.html',
   styleUrls: ['./page-end.component.css']
 })

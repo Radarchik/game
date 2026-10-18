@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
-import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import {Question} from '../model/question';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -8,6 +10,7 @@ import {QuestionsService} from '../questions.service';
 
 @Component({
   selector: 'app-page2',
+  standalone: false,
   templateUrl: './page2.component.html',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./page2.component.css']
