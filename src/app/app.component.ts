@@ -36,7 +36,10 @@ export class AppComponent implements OnInit, OnDestroy {
             for (let i = 0; i < (data as Array<string>).length; i++) {
           const question = new Question();
           question.id = i + 1;
-          question.text = data[i];
+          question.category = data[i].category;
+          question.text = data[i].name;
+          question.estimateAuthor = data[i].estimateAuthor;
+          question.commentAuthor = data[i].commentAuthor;
           question.isOwn = false;
           this.questions.push(question);
         }
@@ -53,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
 
-    this.httpClient.post('https://5b3943cfcda47d5c7885c5e06e3d8361.m.pipedream.net', 'Я зашел (Регина)')
+    this.httpClient.post('https://5b3943cfcda47d5c7885c5e06e3d8361.m.pipedream.net', 'Я зашла (Ксения)')
       .subscribe(response => {
         console.log('');
       });

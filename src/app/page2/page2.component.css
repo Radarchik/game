@@ -214,3 +214,93 @@ mat-button-toggle {
 :host ::ng-deep .mat-button-toggle-checkbox-wrapper {
   display: none !important;
 }
+
+
+
+/* За замовчуванням приховуємо мобільні підписи */
+.mobile-label {
+  display: none;
+}
+
+mat-table {
+  width: 100%;
+}
+
+/* Мобільний вигляд */
+mat-table.isMobile {
+  width: 100%;
+  box-shadow: none;
+}
+
+.isMobile mat-header-row {
+  display: none;
+}
+
+.isMobile mat-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.isMobile mat-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-height: auto;
+  padding: 10px 0;
+  border-bottom: none;
+  box-sizing: border-box;
+}
+
+.isMobile .mobile-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.isMobile .question-text {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.isMobile mat-form-field {
+  width: 100%;
+}
+
+.isMobile mat-button-toggle-group {
+  display: flex;
+  width: 100%;
+}
+
+.isMobile mat-button-toggle {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.isMobile .buttons-container,
+.isMobile button {
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .isMobile mat-row {
+    padding: 6px 10px;
+  }
+
+  .isMobile mat-cell {
+    padding: 8px 0;
+  }
+
+  .isMobile mat-button-toggle {
+    font-size: 12px;
+  }
+}

@@ -1,1 +1,68 @@
-<p>page-result works!</p>
+<div class="results-container">
+  <h2 class="results-title">Результати</h2>
+
+  <div class="table-scroll">
+    <table
+      mat-table
+      [dataSource]="questions"
+      class="results-table"
+    >
+
+    <!-- 1. Коментар -->
+    <ng-container matColumnDef="comment">
+      <th mat-header-cell *matHeaderCellDef>Коментар</th>
+      <td mat-cell *matCellDef="let question">
+        <span class="mobile-label">Коментар</span>
+        <span class="cell-content">{{ question.comment || '—' }}</span>
+      </td>
+    </ng-container>
+
+    <!-- 2. Оцінка -->
+    <ng-container matColumnDef="estimate">
+      <th mat-header-cell *matHeaderCellDef>Оцінка</th>
+      <td mat-cell *matCellDef="let question">
+        <span class="mobile-label">Оцінка</span>
+        <span class="estimate-value">
+          {{ question.estimate ?? '—' }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- 3. Питання -->
+    <ng-container matColumnDef="text">
+      <th mat-header-cell *matHeaderCellDef>Питання</th>
+      <td mat-cell *matCellDef="let question">
+        <span class="mobile-label">Питання</span>
+        <span class="cell-content question-text">
+          {{ question.text }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- 4. Оцінка автора -->
+    <ng-container matColumnDef="estimateAuthor">
+      <th mat-header-cell *matHeaderCellDef>Оцінка автора</th>
+      <td mat-cell *matCellDef="let question">
+        <span class="mobile-label">Оцінка автора</span>
+        <span class="estimate-value">
+          {{ question.estimateAuthor ?? '—' }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- 5. Коментар автора -->
+    <ng-container matColumnDef="commentAuthor">
+      <th mat-header-cell *matHeaderCellDef>Коментар автора</th>
+      <td mat-cell *matCellDef="let question">
+        <span class="mobile-label">Коментар автора</span>
+        <span class="cell-content">
+          {{ question.commentAuthor || '—' }}
+        </span>
+      </td>
+    </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

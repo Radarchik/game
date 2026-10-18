@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -7,6 +7,8 @@ import {Question} from '../model/question';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CommentDialogComponent} from '../comment-dialog/comment-dialog.component';
 import {QuestionsService} from '../questions.service';
+import {map} from 'rxjs';
+import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-page2',
@@ -19,6 +21,7 @@ export class Page2Component implements OnInit, AfterViewInit  {
   @Output() pageToShowEvent = new EventEmitter<number>();
   dataSource: MatTableDataSource<Question>;
   questions: Question[];
+  isLoad = false;
 
   displayedColumns: string[] = ['number', 'name', 'estimate', 'comment'];
 
@@ -26,7 +29,9 @@ export class Page2Component implements OnInit, AfterViewInit  {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private httpClient: HttpClient,
-    private questionsService: QuestionsService) { }
+    private questionsService: QuestionsService,
+    private breakpointObserver: BreakpointObserver,
+    private cdr: ChangeDetectorRef ) { }
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   isMobile: boolean;
@@ -35,6 +40,12 @@ export class Page2Component implements OnInit, AfterViewInit  {
   }
 
   ngOnInit() {
+    this.breakpointObserver
+      .observe(['(max-width: 768px)'])
+      .subscribe((result: BreakpointState) => {
+        this.isMobile = result.matches;
+      });
+
     this.questionsService.questionsReplaySubject.subscribe(questions => {
       console.log(questions);
       this.questions = questions;
@@ -48,10 +59,14 @@ export class Page2Component implements OnInit, AfterViewInit  {
   sendResult() {
     const commonQuestions = this.questions.filter(q => q.isOwn === false);
     const ownQuestions = this.questions.filter(q => q.isOwn);
-    if (commonQuestions.every(question => (question.estimate || question.answer)) && ownQuestions.every(q => q.text)) {
+    const canContinue = commonQuestions.every(question => (question.estimate || question.answer)) && ownQuestions.every(q => q.text);
+    if (true) {
+      this.questionsService.questionsReplaySubject.next(this.questions);
       const body = JSON.stringify(this.questions);
-      this.httpClient.post('https://c0d1a05f981d1b15d231e9a86e2ce39f.m.pipedream.net', body)
+      this.isLoad = true
+      this.httpClient.post('https://5b3943cfcda47d5c7885c5e06e3d8361.m.pipedream.net', body)
         .subscribe(response => {
+          this.isLoad = false
           const message = 'Анкету получила';
           const action = 'Успешно!';
           if (response) {
@@ -92,6 +107,7 @@ export class Page2Component implements OnInit, AfterViewInit  {
     commentDialogRef.afterClosed().subscribe(result => {
       if (result || result === '') {
         question.comment = result;
+        this.cdr.detectChanges();
       }
       commentDialogRef = null;
     });

@@ -105,13 +105,23 @@
 
           </mat-table>
     <!--</div>-->
-    <mat-paginator [pageSizeOptions]="[7]" [hidePageSize]="true" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5]" [hidePageSize]="true" showFirstLastButtons></mat-paginator>
   </div>
 </div>
 
 <div class="send-result">
-  <button mat-raised-button color="accent" id="continue-button" (click)="sendResult()">
-    Отправить анкету
+  <button
+    mat-raised-button
+    color="accent"
+    id="continue-button"
+    [disabled]="isLoad"
+    (click)="sendResult()">
+
+    <mat-spinner
+      *ngIf="isLoad"
+      diameter="20">
+    </mat-spinner>
+
+    <span *ngIf="!isLoad">Отправить анкету</span>
   </button>
 </div>
-
