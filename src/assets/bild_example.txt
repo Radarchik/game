@@ -1,1 +1,1 @@
-ng build --prod --output-path docs --base-href /slaveProfile/
+ng build --configuration production --output-path docs --base-href /my-queen/
