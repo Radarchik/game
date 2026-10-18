@@ -1,1 +1,1 @@
-ng build --configuration production --base-href /my-queen/
+ng build --configuration production --base-href /game/
