@@ -1,68 +1,69 @@
 <div class="results-container">
-  <h2 class="results-title">Результати</h2>
+  <h2 class="results-title">Результаты</h2>
 
-  <div class="table-scroll">
-    <table
-      mat-table
-      [dataSource]="questions"
-      class="results-table"
-    >
+  @for (group of questionsByCategory; track group.category) {
+    <section class="category-section">
+      <h3 class="category-title">
+        <b>Категория: </b> {{ group.category }}
+      </h3>
 
-    <!-- 1. Коментар -->
-    <ng-container matColumnDef="comment">
-      <th mat-header-cell *matHeaderCellDef>Коментар</th>
-      <td mat-cell *matCellDef="let question">
-        <span class="mobile-label">Коментар</span>
-        <span class="cell-content">{{ question.comment || '—' }}</span>
-      </td>
-    </ng-container>
+      <div class="table-scroll">
+        <table mat-table [dataSource]="group.questions" class="results-table">
 
-    <!-- 2. Оцінка -->
-    <ng-container matColumnDef="estimate">
-      <th mat-header-cell *matHeaderCellDef>Оцінка</th>
-      <td mat-cell *matCellDef="let question">
-        <span class="mobile-label">Оцінка</span>
-        <span class="estimate-value">
-          {{ question.estimate ?? '—' }}
-        </span>
-      </td>
-    </ng-container>
+          <!-- Питання -->
+          <ng-container matColumnDef="text">
+            <th mat-header-cell *matHeaderCellDef>Действие</th>
+            <td mat-cell *matCellDef="let q">
+              <span class="question-text" [ngClass]="{ 'text-red': q.isSituation === true }">
+                {{ q.text }}
+              </span>
+            </td>
+          </ng-container>
 
-    <!-- 3. Питання -->
-    <ng-container matColumnDef="text">
-      <th mat-header-cell *matHeaderCellDef>Питання</th>
-      <td mat-cell *matCellDef="let question">
-        <span class="mobile-label">Питання</span>
-        <span class="cell-content question-text">
-          {{ question.text }}
-        </span>
-      </td>
-    </ng-container>
+          <!-- Queen -->
+          <ng-container matColumnDef="estimate">
+            <th mat-header-cell *matHeaderCellDef>
+              Queen
+            </th>
+            <td mat-cell *matCellDef="let q">
+              <span class="estimate-value">
+                {{ q.estimate ?? '—' }}
+              </span>
 
-    <!-- 4. Оцінка автора -->
-    <ng-container matColumnDef="estimateAuthor">
-      <th mat-header-cell *matHeaderCellDef>Оцінка автора</th>
-      <td mat-cell *matCellDef="let question">
-        <span class="mobile-label">Оцінка автора</span>
-        <span class="estimate-value">
-          {{ question.estimateAuthor ?? '—' }}
-        </span>
-      </td>
-    </ng-container>
+              @if (q.comment != null) {
+                <span class="author-value">
+                  ({{ q.comment }})
+                </span>
+              }
+            </td>
+          </ng-container>
 
-    <!-- 5. Коментар автора -->
-    <ng-container matColumnDef="commentAuthor">
-      <th mat-header-cell *matHeaderCellDef>Коментар автора</th>
-      <td mat-cell *matCellDef="let question">
-        <span class="mobile-label">Коментар автора</span>
-        <span class="cell-content">
-          {{ question.commentAuthor || '—' }}
-        </span>
-      </td>
-    </ng-container>
+          <!-- slave -->
+          <ng-container matColumnDef="comment">
+            <th mat-header-cell *matHeaderCellDef>
+              slave
+            </th>
+            <td mat-cell *matCellDef="let q">
+              <span class="estimate-value">
+                {{ q.estimateAuthor ?? '—' }}
+              </span>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
+              @if (q.commentAuthor) {
+                <div class="author-value">
+                  ({{ q.commentAuthor }})
+                </div>
+              }
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </section>
+  }
+
+  @if (questionsByCategory.length === 0) {
+    <p class="empty-message">Результатів поки немає.</p>
+  }
 </div>

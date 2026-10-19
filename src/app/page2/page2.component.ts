@@ -57,6 +57,7 @@ export class Page2Component implements OnInit, AfterViewInit  {
   }
 
   sendResult() {
+    this.resetOrder();
     const commonQuestions = this.questions.filter(q => q.isOwn === false);
     const ownQuestions = this.questions.filter(q => q.isOwn);
     const canContinue = commonQuestions.every(question => (question.estimate || question.answer)) && ownQuestions.every(q => q.text);
@@ -124,5 +125,12 @@ export class Page2Component implements OnInit, AfterViewInit  {
 
   onInputNotToggleChange(value: any, question: Question) {
     question.answer = value;
+  }
+
+  resetOrder(): void {
+    // Метод .sort() мутує поточний масив, сортуючи за зростанням id
+    this.questions = this.questions
+      .filter(q => q.text)
+      .sort((a, b) => a.id - b.id);
   }
 }

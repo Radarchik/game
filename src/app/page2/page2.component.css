@@ -160,13 +160,14 @@
 
 }
 
-.question-text{
-  margin-left: 5px;/*
-  width: fit-content !important;*/
+.question-text {
+  display: block;
+  margin-left: 5px;
+  text-indent: 5mm;
+  padding-top: 2mm;
+  padding-bottom: 2mm;
+  text-align: justify;
 }
-
-
-
 /*for back button*/
 .go-back-wrapper{
   display: flex;

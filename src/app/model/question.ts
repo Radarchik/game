@@ -5,6 +5,7 @@ export class Question {
   estimate: number;
   comment: string;
   isOwn: boolean;
+  isSituation: boolean;
   answer: string;
   estimateAuthor: number;
   commentAuthor: string;

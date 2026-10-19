@@ -20,8 +20,7 @@
             <ng-container matColumnDef="number">
               <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
               <mat-cell *matCellDef="let question;">
-                <span class="mobile-label">№</span>
-                {{question.id}}
+                <span class="mobile-label">№{{question.id}}</span>
               </mat-cell>
             </ng-container>
 
@@ -36,7 +35,7 @@
                   *ngIf="question.isOwn"
                   class="no-padding">
 
-                  <mat-label>Заполни свой вариант:</mat-label>
+                  <mat-label>Заполните свой вариант (опц.):</mat-label>
 
                   <input
                     #answerInput
@@ -61,7 +60,6 @@
                   [value]="question.estimate"
                   (change)="onValChange($event.value, question)">
 
-                  <mat-button-toggle [value]="0">0</mat-button-toggle>
                   <mat-button-toggle [value]="1">1</mat-button-toggle>
                   <mat-button-toggle [value]="2">2</mat-button-toggle>
                   <mat-button-toggle [value]="3">3</mat-button-toggle>
@@ -89,11 +87,11 @@
 
             <!-- Name Column -->
             <ng-container matColumnDef="comment" >
-              <mat-header-cell *matHeaderCellDef> Коментарий <br/> (по желанию)</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> Коментарий  {{isMobile ? '' : '(по желанию)'}}</mat-header-cell>
               <mat-cell *matCellDef="let question;" >
-                <span class="mobile-label">Коментарий <br/> (по желанию)</span>
+                <span class="mobile-label">Коментарий {{isMobile ? '' : '(по желанию)'}}</span>
                 <button mat-stroked-button (click)="goToComment(question)" color="primary">
-                  {{question.comment ? 'Исправить коментарий' : 'Добавить коментарий'}}
+                  {{question.comment ? 'Исправить коментарий' : isMobile ? 'Добавить коментарий (опционально)' : 'Добавить коментарий'}}
                 </button>
               </mat-cell>
             </ng-container>

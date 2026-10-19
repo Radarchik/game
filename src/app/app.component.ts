@@ -30,25 +30,30 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.httpClient.get('assets/test.json', {responseType: 'json'})
-          .subscribe(data => {
-            this.questions = [];
+      .subscribe(data => {
+        this.questions = [];
 
-            for (let i = 0; i < (data as Array<string>).length; i++) {
+        for (let i = 0; i < (data as Array<string>).length; i++) {
           const question = new Question();
           question.id = i + 1;
           question.category = data[i].category;
           question.text = data[i].name;
           question.estimateAuthor = data[i].estimateAuthor;
           question.commentAuthor = data[i].commentAuthor;
+          question.isSituation = data[i].isSituation;
           question.isOwn = false;
           this.questions.push(question);
         }
 
+        //перемешиваем вопросы
+        this.shuffleQuestions();
+
         // добавляем собственные вопросы
-            const len = this.questions.length + 1;
-            for (let i = len; i < len + 3; i++) {
+        const len = this.questions.length + 1;
+        for (let i = len; i < len + 3; i++) {
           const question = new Question();
           question.id = i;
+          question.category = 'Собственные фантазии (опционально)';
           question.isOwn = true;
           question.text = '';
           this.questions.push(question);
@@ -86,5 +91,13 @@ export class AppComponent implements OnInit, OnDestroy {
       return {wrongPassword: true};
     }
     return null;
+  }
+
+
+  shuffleQuestions(): void {
+    for (let i = this.questions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.questions[i], this.questions[j]] = [this.questions[j], this.questions[i]];
+    }
   }
 }
