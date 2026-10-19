@@ -18,6 +18,7 @@ interface QuestionGroup {
 })
 export class PageResultComponent implements OnInit, AfterViewInit {
   @Output() pageToShowEvent = new EventEmitter<number>();
+  isLoad = false;
 
   constructor(
     private questionsService: QuestionsService,
@@ -80,5 +81,9 @@ export class PageResultComponent implements OnInit, AfterViewInit {
       groups,
       ([category, questions]) => ({ category, questions })
     );
+  }
+
+  protected toEnd() {
+    this.pageToShowEvent.emit(4);
   }
 }

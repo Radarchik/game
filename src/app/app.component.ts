@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Question} from './model/question';
 import {QuestionsService} from './questions.service';
@@ -11,7 +11,6 @@ import {QuestionsService} from './questions.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public title = 'Анкета раба';
   startForm: FormGroup;
   questions: Question[];
   rightPassword;
@@ -23,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.rightPassword = new Date().getDate() * 777;
+    this.rightPassword = (new Date().getMonth() + 1) * 777;
     this.pageToShow = 0;
     this.startForm = this.formBuilder.group({
       password: ['', this.passWordValidator]
@@ -83,11 +82,10 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.startForm.get('password').value === '1311') {
       this.pageToShow = -1;
     }
-    this.pageToShow = 1;
   }
 
   passWordValidator(control: AbstractControl) {
-    if (control.value === (new Date().getDate() * 777).toString()) {
+    if (control.value !== ((new Date().getMonth() + 1) * 777).toString()) {
       return {wrongPassword: true};
     }
     return null;
@@ -100,4 +98,5 @@ export class AppComponent implements OnInit, OnDestroy {
       [this.questions[i], this.questions[j]] = [this.questions[j], this.questions[i]];
     }
   }
+
 }

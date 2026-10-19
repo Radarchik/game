@@ -18,9 +18,10 @@
 
             <!-- Position Column -->
             <ng-container matColumnDef="number">
-              <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
-              <mat-cell *matCellDef="let question;">
-                <span class="mobile-label">№{{question.id}}</span>
+              <mat-header-cell *matHeaderCellDef>№</mat-header-cell>
+
+              <mat-cell *matCellDef="let question">
+                {{ question.id }}
               </mat-cell>
             </ng-container>
 

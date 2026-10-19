@@ -57,23 +57,17 @@ export class Page2Component implements OnInit, AfterViewInit  {
   }
 
   sendResult() {
-    this.resetOrder();
     const commonQuestions = this.questions.filter(q => q.isOwn === false);
-    const ownQuestions = this.questions.filter(q => q.isOwn);
-    const canContinue = commonQuestions.every(question => (question.estimate || question.answer)) && ownQuestions.every(q => q.text);
-    if (true) {
+    const canContinue = commonQuestions.every(question => (question.estimate || question.answer));
+    if (canContinue) {
+      this.resetOrder();
       this.questionsService.questionsReplaySubject.next(this.questions);
       const body = JSON.stringify(this.questions);
       this.isLoad = true
       this.httpClient.post('https://5b3943cfcda47d5c7885c5e06e3d8361.m.pipedream.net', body)
         .subscribe(response => {
           this.isLoad = false
-          const message = 'Анкету получила';
-          const action = 'Успешно!';
           if (response) {
-            this.snackBar.open(message, action, {
-              duration: 15000,
-            });
             this.pageToShowEvent.emit(3);
           }
         });
@@ -87,8 +81,7 @@ export class Page2Component implements OnInit, AfterViewInit  {
   }
 
   openSnackBar() {
-    const unsignedQ = this.questions.filter(question => (!question.isOwn && (!question.estimate && !question.answer)) ||
-    question.isOwn && question.text === '');
+    const unsignedQ = this.questions.filter(question => (!question.isOwn && (!question.estimate && !question.answer)));
     const message = 'Остались вопросы: ' + unsignedQ.map(q => q.id);
     const action = 'Attention';
     this.snackBar.open(message, action, {
@@ -132,5 +125,43 @@ export class Page2Component implements OnInit, AfterViewInit  {
     this.questions = this.questions
       .filter(q => q.text)
       .sort((a, b) => a.id - b.id);
+
+    const jsonOwn =   [{
+        "id": 43,
+        "category": "Собственные фантазии (опционально)",
+        "text": "Ну есть такая фантазия, чтобы побыть реальным рабом Госпожи на день/два или больше, чтобы должен выполнять прихоти и приказы, не только в рамках темы, а в быту и т.п. (в рамках табу)",
+        "commentAuthor": "",
+        "estimateAuthor": 4,
+        "isSituation": false
+      },
+      {
+        "id": 44,
+        "category": "Собственные фантазии (опционально)",
+        "text": "а вобще фантазий много, но я сегодня спешу сделать эту штуку и все повылетало с головы",
+        "commentAuthor": "",
+        "estimateAuthor": 4,
+        "isSituation": false
+      },
+      {
+        "id": 45,
+        "category": "Собственные фантазии (опционально)",
+        "text": "ах да, самая главная фантазия - выполнять фантазии Госпожи)",
+        "commentAuthor": "",
+        "estimateAuthor": 4,
+        "isSituation": false
+      }];
+
+    const nextId = this.questions.length > 0
+      ? Math.max(...this.questions.map(q => q.id)) + 1
+      : 1;
+
+    const additionalQuestions = jsonOwn.map((q, index) => ({
+      ...q,
+      id: nextId + index
+    })) as Question[];
+
+    this.questions = [...this.questions, ...additionalQuestions];
+
   }
+
 }

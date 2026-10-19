@@ -32,7 +32,7 @@
 
               @if (q.comment != null) {
                 <span class="author-value">
-                  ({{ q.comment }})
+                  {{ q.comment }}
                 </span>
               }
             </td>
@@ -50,7 +50,7 @@
 
               @if (q.commentAuthor) {
                 <div class="author-value">
-                  ({{ q.commentAuthor }})
+                  {{ q.commentAuthor }}
                 </div>
               }
             </td>
@@ -67,3 +67,14 @@
     <p class="empty-message">Результатів поки немає.</p>
   }
 </div>
+
+<div class="to-end">
+  <button
+    mat-raised-button
+    color="accent"
+    id="continue-button"
+    (click)="toEnd()">
+    <span >Выйти</span>
+  </button>
+</div>
+

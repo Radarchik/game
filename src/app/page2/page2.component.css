@@ -1,5 +1,5 @@
 
-.send-result{
+.to-end{
   width: 100%;
   display: flex;
   align-items: center;
@@ -146,12 +146,12 @@
   }
 
   .mat-column-name {
-    flex: 0 0 43%;
+    flex: 0 0 49%;
     min-width: 250px;
   }
 
   .mat-column-estimate {
-    flex: 0 0 25%;
+    flex: 0 0 22%;
   }
 
   .mat-column-comment{
@@ -304,4 +304,12 @@ mat-table.isMobile {
   .isMobile mat-button-toggle {
     font-size: 12px;
   }
+}
+
+
+.send-result{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
