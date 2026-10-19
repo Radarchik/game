@@ -7,7 +7,8 @@
     <mat-form-field appearance="outline" autocomplete="off">
       <mat-label>Пароль:</mat-label>
       <input matInput formControlName="password" autocomplete="off">
-      <mat-error *ngIf="startForm.get('password').value !== rightPassword">Неправильный пароль!</mat-error>
+      <mat-error *ngIf="startForm.get('password').value !== this.rightPassword &&
+       startForm.get('password').value !== this.rightPasswordForResult">Неправильный пароль!</mat-error>
     </mat-form-field>
 
     <button mat-raised-button color="accent" type="submit" id="continue-button">

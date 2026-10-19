@@ -13,16 +13,19 @@ import {QuestionsService} from './questions.service';
 export class AppComponent implements OnInit, OnDestroy {
   startForm: FormGroup;
   questions: Question[];
-  rightPassword;
+  rightPassword: string;
+  rightPasswordForResult: string;
   public pageToShow: number;
 
   constructor(private httpClient: HttpClient,
               private questionsService: QuestionsService,
               private formBuilder: FormBuilder) {
+
   }
 
   ngOnInit(): void {
-    this.rightPassword = (new Date().getMonth() + 1) * 777;
+    this.rightPassword = (new Date().getMonth() + 1) * 777 + '';
+    this.rightPasswordForResult = '7771';
     this.pageToShow = 0;
     this.startForm = this.formBuilder.group({
       password: ['', this.passWordValidator]
@@ -60,10 +63,10 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
 
-    this.httpClient.post('https://5b3943cfcda47d5c7885c5e06e3d8361.m.pipedream.net', 'Я зашла (Ксения)')
-      .subscribe(response => {
-        console.log('');
-      });
+    // this.httpClient.post('https://5b3943cfcda47d5c7885c5e06e3d8361.m.pipedream.net', 'Я зашла (Ксения)')
+    //   .subscribe(response => {
+    //     console.log('');
+    //   });
   }
 
   pageEventHandler($event: any) {
@@ -74,18 +77,33 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  goToPage1() {
-    this.questionsService.questionsReplaySubject.next(this.questions);
-    if (this.startForm.get('password').value === this.rightPassword.toString()) {
+  goToPage1(): void {
+    const password = this.startForm.get('password')?.value;
+
+    if (password === this.rightPassword) {
+      this.questionsService.questionsReplaySubject.next(this.questions);
       this.pageToShow = 1;
+      return;
     }
-    if (this.startForm.get('password').value === '1311') {
-      this.pageToShow = -1;
+
+    if (password === this.rightPasswordForResult) {
+      this.httpClient
+        .get<Question[]>('assets/result.json')
+        .subscribe({
+          next: (data) => {
+            this.questionsService.questionsReplaySubject.next(data);
+            this.pageToShow = 3;
+          },
+          error: (err) => {
+            console.error('Не вдалося завантажити result.json', err);
+          }
+        });
     }
   }
 
   passWordValidator(control: AbstractControl) {
-    if (control.value !== ((new Date().getMonth() + 1) * 777).toString()) {
+    if (control.value !== this?.rightPassword
+      || control.value !== this?.rightPasswordForResult) {
       return {wrongPassword: true};
     }
     return null;
